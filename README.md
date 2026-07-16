@@ -262,10 +262,10 @@ unless the variable is already set by the user.
 
 ## Release Checklist
 
-1. Confirm the package is `ros2_helper` and the version is `0.1.2`.
+1. Confirm the package is `ros2_helper` and the version is `0.1.3`.
 2. Confirm `<exec_depend>chafa</exec_depend>` resolves through rosdep.
-3. Commit the release-prep changes with `git commit -am "Prepare ros2_helper 0.1.2 release"`.
-4. Create an annotated tag with `git tag -a v0.1.2 -m "ros2_helper 0.1.2"`.
+3. Commit the release-prep changes with `git commit -am "Prepare ros2_helper 0.1.3 release"`.
+4. Create an annotated tag with `git tag -a v0.1.3 -m "ros2_helper 0.1.3"`.
 5. Run `bloom-release --rosdistro jazzy ...`.
 6. Wait for the rosdistro release PR to merge.
 7. Confirm the build farm completed and the apt repository synced.
