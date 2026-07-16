@@ -1,0 +1,45 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  github-release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: jazzy
+
+      - name: Install release tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-bloom python3-rosdep fakeroot debhelper dh-python
+          sudo rosdep init || true
+          rosdep update
+
+      - name: Create source archive
+        run: |
+          git archive --format=tar.gz --prefix=echo-graphic-${GITHUB_REF_NAME}/ ${GITHUB_REF_NAME} > echo-graphic-${GITHUB_REF_NAME}.tar.gz
+
+      - name: Build Debian package
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          rosdep install --from-paths . --ignore-src --rosdistro jazzy -y
+          bloom-generate rosdebian --os-name ubuntu --os-version noble --ros-distro jazzy
+          fakeroot debian/rules binary
+          mkdir -p release-assets
+          mv ../*.deb release-assets/
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            echo-graphic-${{ github.ref_name }}.tar.gz
+            release-assets/*.deb
+          generate_release_notes: true

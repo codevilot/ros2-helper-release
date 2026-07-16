@@ -1,0 +1,29 @@
+FROM ros:jazzy-ros-base
+
+ENV DEBIAN_FRONTEND=noninteractive
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    chafa \
+    libpng-dev \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /ws
+COPY . /ws/src/ros2_helper
+
+RUN rosdep update \
+  && source /opt/ros/jazzy/setup.bash \
+  && rosdep install --from-paths src --ignore-src -r -y --rosdistro jazzy \
+  && colcon build --packages-select ros2_helper --parallel-workers 1 --event-handlers console_direct+
+
+RUN echo 'source /opt/ros/jazzy/setup.bash' >> /root/.bashrc \
+  && echo 'source /ws/install/setup.bash' >> /root/.bashrc
+
+RUN cp /ws/src/ros2_helper/docker/ros2-helper-entrypoint.sh /usr/local/bin/ros2-helper-entrypoint \
+  && chmod +x /usr/local/bin/ros2-helper-entrypoint
+
+ENTRYPOINT ["/usr/local/bin/ros2-helper-entrypoint"]
+CMD ["bash"]
