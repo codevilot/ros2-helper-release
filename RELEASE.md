@@ -12,7 +12,8 @@ This repository is `ros2-helper` and keeps the existing git history.
 The `graphic` functionality is the first helper in the renamed `ros2_helper`
 package. Existing `v0.1.0` and `v0.1.1` tags belong to the former
 `ros2_echo_graphic` / `echo_graphic` package, so the first `ros2_helper`
-release uses `0.1.2` and tag `v0.1.2`. Create a new bloom release repository
+release used `0.1.2` and tag `v0.1.2`. The current release is `0.1.3` with
+package homepage metadata. Create a new bloom release repository
 later as `ros2-helper-release`.
 
 ## GitHub Release
@@ -22,8 +23,8 @@ later as `ros2-helper-release`.
 3. Create and push a matching tag:
 
 ```bash
-git tag -a v0.1.2 -m "ros2_helper 0.1.2"
-git push origin main v0.1.2
+git tag -a v0.1.3 -m "ros2_helper 0.1.3"
+git push origin main v0.1.3
 ```
 
 Users should prefer official ROS packages after the ROS build farm release:
@@ -73,18 +74,18 @@ from the ROS package name and rosdistro: `ros-jazzy-ros2-helper`.
 
 ## ROS Build Farm Checklist
 
-1. Confirm the package is `ros2_helper` and the version is `0.1.2`.
+1. Confirm the package is `ros2_helper` and the version is `0.1.3`.
 2. Confirm `<exec_depend>chafa</exec_depend>` resolves through rosdep.
 3. Commit the release-prep changes:
 
 ```bash
-git commit -am "Prepare ros2_helper 0.1.2 release"
+git commit -am "Prepare ros2_helper 0.1.3 release"
 ```
 
 4. Create an annotated tag:
 
 ```bash
-git tag -a v0.1.2 -m "ros2_helper 0.1.2"
+git tag -a v0.1.3 -m "ros2_helper 0.1.3"
 ```
 
 5. Run `bloom-release --rosdistro jazzy ...`.
